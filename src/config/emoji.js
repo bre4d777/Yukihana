@@ -1,0 +1,100 @@
+export const emoji = {
+  success: '<:discotoolsxyzicon69:1347122753613987890>',
+  error: '<:discotoolsxyzicon70:1347122749876863048>',
+  warning: '<:discotoolsxyzicon87:1347122685267939348>',
+  info: '<:discotoolsxyzicon87:1347122685267939348>',
+  
+  favorite: '<:discotoolsxyzicon77:1347122721724825641>',
+  unfavorite: '<:discotoolsxyzicon78:1347122717803024394>',
+  
+  level: '🌟',
+  experience: '✨',
+  rank: '🏆',
+  leaderboard: '📊',
+  
+  achievement: '🏅',
+  commandAchievement: '💬',
+  specialAchievement: '🎖️',
+  
+  profile: '👤',
+  bio: '📝',
+  calendar: '📅',
+  
+  loading: '<a:loading_red:1378726957138575403>',
+  settings: '⚙️',
+  time: '⏰',
+  
+  developer: '👨‍💻',
+  owner: '👑',
+  admin: '🛡️',
+  moderator: '🔨',
+  vip: '💎',
+  supporter: '❤️',
+  
+  progressFilled: '█',
+  progressEmpty: '░',
+  progressStart: '⏮️',
+  progressEnd: '⏭️',
+  progressCurrent: '🔘',
+  
+  party: '🎉',
+  chill: '😌',
+  sad: '😢',
+  energetic: '⚡',
+  romantic: '💖',
+  
+  heart: '❤️',
+  star: '⭐',
+  fire: '🔥',
+  sparkles: '✨',
+  trophy: '🏆',
+  medal: '🎖️',
+  chart: '📈',
+  speaker: '🔈',
+  loudSpeaker: '📢',
+  megaphone: '📣',
+  clock: '🕒',
+  hourglass: '⌛',
+  pin: '📌',
+  bookmark: '🔖',
+  label: '🏷️',
+  speechBalloon: '💬',
+  envelope: '✉️',
+  rocket: '🚀',
+  star2: '🌠',
+  dizzy: '💫',
+  partyPopper: '🎉',
+  confettiBall: '🎊',
+  tada: '🎉',
+  gift: '🎁',
+  crown: '👑',
+  gem: '💎',
+  moneybag: '💰',
+  magicWand: '🪄',
+  lock: '🔒',
+  unlock: '🔓',
+  key: '🔑',
+  hammer: '🔨',
+  wrench: '🔧',
+  gear: '⚙️',
+  notepad: '📝',
+  memo: '📝',
+  book: '📖',
+  books: '📚',
+  newspaper: '📰',
+  category: '📁',
+  eye: '👁️',
+  
+  wave: '〰️',
+  vibration: '📳',
+  
+  offline: '⚫',
+  online: '🟢',
+  connecting: '🔌',
+  
+  get(name, fallback = '') {
+    return this[name] || fallback;
+  }
+};
+
+export default emoji;

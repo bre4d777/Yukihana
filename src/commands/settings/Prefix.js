@@ -1,10 +1,10 @@
 
 
 
-import { Command } from '../../structures/Command.js';
+import { Command } from '#structures/Command.js';
 import { EmbedBuilder, PermissionFlagsBits } from 'discord.js';
-import { db } from '../../database/DatabaseManager.js';
-import { config } from '../../config/config.js';
+import { db } from '#database/DatabaseManager.js';
+import { config } from '#config/config.js';
 
 
 

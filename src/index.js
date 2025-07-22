@@ -1,6 +1,6 @@
 
-import { Yukihana } from './structures/Yukihana.js';
-import { logger } from './utils/logger.js';
+import { Yukihana } from '#structures/Yukihana.js';
+import { logger } from '#utils/logger.js';
 
 const client = new Yukihana();
 

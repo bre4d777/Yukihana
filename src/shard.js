@@ -1,6 +1,6 @@
 
 import { ClusterManager, HeartbeatManager } from 'discord-hybrid-sharding';
-import { config } from './config/config.js';
+import { config } from '#config/config.js';
 
 const manager = new ClusterManager('./src/index.js', {
     totalShards: 'auto',

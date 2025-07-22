@@ -6,16 +6,16 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/shard.js",
-    "dev": "node --watch src/index.js",
+    "dev": "node --watch src/shard.js",
     "test": "node --test"
   },
   "imports": {
-    "@commands/*": "./src/commands/*.js",
-    "@structures/*": "./src/structures/*.js",
-    "@database/*": "./src/database/*.js",
-    "@config/*": "./src/config/*.js",
-    "@utils/*": "./src/utils/*.js",
-    "@events/*": "./src/events/*.js"
+    "#commands/*": "./src/commands/*.js",
+    "#structures/*": "./src/structures/*.js",
+    "#database/*": "./src/database/*.js",
+    "#config/*": "./src/config/*.js",
+    "#utils/*": "./src/utils/*.js",
+    "#events/*": "./src/events/*.js"
   },
   "keywords": [
     "discord",

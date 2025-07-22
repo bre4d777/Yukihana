@@ -1,7 +1,7 @@
 
 import { Database } from './Database.js';
-import { config } from '../config/config.js';
-import { logger } from '../utils/logger.js';
+import { config } from '#config/config.js';
+import { logger } from '#utils/logger.js';
 
 export class Guild extends Database {
   constructor() {

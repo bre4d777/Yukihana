@@ -1,8 +1,7 @@
 import { Guild } from './Guild.js';
 import { User } from './User.js';
 import { Premium } from './Premium.js';
-import { Management } from './Management.js'; 
-import { logger } from '../utils/logger.js';
+import { logger } from '#utils/logger.js';
 
 
 export class DatabaseManager {
@@ -16,7 +15,6 @@ export class DatabaseManager {
       this.user = new User();
       this.premium = new Premium();
 
-      this.management = new Management(); 
       logger.success('DatabaseManager', 'All databases initialized successfully');
     } catch (error) {
       logger.error('DatabaseManager', 'Failed to initialize databases', error);
@@ -28,6 +26,7 @@ export class DatabaseManager {
     try {
       this.guild.close();
       this.user.close();
+      this.premium.close();
 
       logger.info('DatabaseManager', 'All database connections closed');
     } catch (error) {
@@ -150,37 +149,6 @@ export class DatabaseManager {
   
   getAllGuildPremiums() {
     return this.premium.getAllGuildPremiums();
-  }
-
-  
-  
-  addManager(userId, addedBy, reason = 'No reason provided') {
-    return this.management.addManager(userId, addedBy, reason);
-  }
-
-  
-  removeManager(userId) {
-    return this.management.removeManager(userId);
-  }
-
-  
-  isManager(userId) {
-    return this.management.isManager(userId);
-  }
-
-  
-  getAllManagers() {
-    return this.management.getAllManagers();
-  }
-
-  
-  getManagerStats() {
-    return this.management.getStats();
-  }
-
-  
-  managerExists(userId) {
-    return this.management.managerExists(userId);
   }
 }
 

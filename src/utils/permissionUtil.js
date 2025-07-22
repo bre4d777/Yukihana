@@ -21,8 +21,6 @@ export function isManager(userId) {
 
 export function canUseCommand(member, command) {
   if (command.ownerOnly && !isOwner(member.id)) return false;
-  if (command.management && !isManager(member.id)) return false;
-
   if (command.userPermissions?.length > 0) {
     return command.userPermissions.every(perm => member.permissions.has(perm));
   }

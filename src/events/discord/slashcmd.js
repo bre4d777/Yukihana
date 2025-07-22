@@ -1,10 +1,9 @@
-
 import { InteractionType, ContainerBuilder, TextDisplayBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags } from 'discord.js';
-import { logger } from '../../utils/logger.js';
-import { db } from '../../database/DatabaseManager.js';
-import { cooldownManager } from '../../utils/cooldownManager.js';
-import { canUseCommand, getMissingBotPermissions, inSameVoiceChannel, hasPremiumAccess } from '../../utils/permissionUtil.js';
-import { config } from '../../config/config.js';
+import { logger } from '#utils/logger.js';
+import { db } from '#database/DatabaseManager.js';
+import { cooldownManager } from '#utils/cooldownManager.js';
+import { canUseCommand, getMissingBotPermissions, inSameVoiceChannel, hasPremiumAccess } from '#utils/permissionUtil.js';
+import { config } from '#config/config.js';
 
 
 
@@ -116,35 +115,23 @@ async function handleChatInputCommand(interaction, client) {
   }
 
   try {
-    
-
-    
     if (db.isUserBlacklisted(interaction.user.id) || db.isGuildBlacklisted(interaction.guild.id)) {
       return _sendError(interaction, 'Access Denied', 'You are not permitted to use this bot.');
     }
 
-    
     if (commandToExecute.maintenance && !config.ownerIds?.includes(interaction.user.id)) {
       return _sendError(interaction, 'Under Maintenance', 'This command is currently under maintenance. Please try again later.');
     }
 
-    
     if (commandToExecute.ownerOnly && !config.ownerIds?.includes(interaction.user.id)) {
       return _sendError(interaction, 'Permission Denied', 'This is an owner-only command.');
     }
 
-    
-    if (commandToExecute.management && !db.isManager(interaction.user.id)) {
-      return _sendError(interaction, 'Permission Denied', 'Management permissions are required for this command.');
-    }
-
-    
     if (!canUseCommand(interaction.member, commandToExecute)) {
       const missingPerms = commandToExecute.userPermissions.filter(p => !interaction.member.permissions.has(p));
       return _sendError(interaction, 'Insufficient Permissions', `You are missing the following permissions: \`${missingPerms.join(', ')}\``);
     }
 
-    
     if (commandToExecute.permissions?.length > 0) {
       const missingBotPerms = getMissingBotPermissions(interaction.channel, commandToExecute.permissions);
       if (missingBotPerms.length > 0) {
@@ -152,18 +139,15 @@ async function handleChatInputCommand(interaction, client) {
       }
     }
 
-    
     if (commandToExecute.userPrem && !hasPremiumAccess(interaction.user.id, interaction.guild.id, 'user')) return _sendPremiumError(interaction, 'User Premium');
     if (commandToExecute.guildPrem && !hasPremiumAccess(interaction.user.id, interaction.guild.id, 'guild')) return _sendPremiumError(interaction, 'Guild Premium');
     if (commandToExecute.anyPrem && !hasPremiumAccess(interaction.user.id, interaction.guild.id, 'any')) return _sendPremiumError(interaction, 'Premium');
 
-    
     const cooldownTime = cooldownManager.checkCooldown(interaction.user.id, commandToExecute);
     if (cooldownTime) {
       return _sendError(interaction, 'Cooldown Active', `Please wait **${cooldownTime}** more second(s) before using this command.`);
     }
 
-    
     if (commandToExecute.voiceRequired && !interaction.member.voice.channel) {
       return _sendError(interaction, 'Voice Channel Required', 'You must be in a voice channel to use this command.');
     }
@@ -174,7 +158,6 @@ async function handleChatInputCommand(interaction, client) {
     }
 
 
-    
     cooldownManager.setCooldown(interaction.user.id, commandToExecute);
     await commandToExecute.slashExecute({ interaction, client });
 

@@ -4,10 +4,10 @@ import { REST } from '@discordjs/rest';
 import { Routes as R } from 'discord-api-types/v10';
 import { EventLoader as EL } from './EventLoader.js';
 import { CommandHandler as CH } from './CommandHandler.js';
-import { logger as l } from '../utils/logger.js';
-import { config as c } from '../config/config.js';
-import { db } from '../database/DatabaseManager.js';
-import { emoji as e } from '../config/emoji.js';
+import { logger as l } from '#utils/logger.js';
+import { config as c } from '#config/config.js';
+import { db } from '#database/DatabaseManager.js';
+import { emoji as e } from '#config/emoji.js';
 
 let si = null;
 try {

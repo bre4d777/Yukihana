@@ -1,6 +1,6 @@
-import { Command } from '../../structures/Command.js';
-import { db } from '../../database/DatabaseManager.js';
-import { formatPremiumExpiry } from '../../utils/permissionUtil.js';
+import { Command } from '#structures/Command.js';
+import { db } from '#database/DatabaseManager.js';
+import { formatPremiumExpiry } from '#utils/permissionUtil.js';
 
 class PremiumCommand extends Command {
   constructor() {
@@ -10,7 +10,7 @@ class PremiumCommand extends Command {
       usage: 'premium <grant|revoke|stats|cleanup> [type] [id] [duration] [reason]',
       aliases: ['prem'],
       category: 'owner',
-      management: false,
+      
       examples: [
         'premium grant user 123456789 30d Premium granted',
         'premium grant guild 987654321 perm Guild premium',
@@ -42,7 +42,7 @@ class PremiumCommand extends Command {
     }
   }
 
-  async handleGrant(client,message, args) {
+    async handleGrant(client,message, args) {
     if (args.length < 2) {
       return message.reply(`${client.emoji.error} Usage: \`premium grant <user|guild> <id> [duration] [reason]\`\nDuration: 1d, 7d, 30d, perm (default: 30d)`);
     }
@@ -51,7 +51,7 @@ class PremiumCommand extends Command {
     let id = args[1];
       if (id.startsWith('<@') && id.endsWith('>')) {
   id = id.slice(2, -1);
-  if (id.startsWith('!')) id = userId.slice(1);
+  if (id.startsWith('!')) id = id.slice(1);
 }
     const durationArg = args[2] || '30d';
     const reason = args.slice(3).join(' ') || 'Premium granted by owner';
@@ -61,9 +61,9 @@ class PremiumCommand extends Command {
     }
 
     let expiresAt = null;
-    if (durationArg !== 'perm' && durationArg !== 'permanent') {
+    if (durationArg.toLowerCase() !== 'perm' && durationArg.toLowerCase() !== 'permanent') {
       const duration = this.parseDuration(durationArg);
-      if (duration === null) {
+      if (!duration) {
         return message.reply(`${client.emoji.error} Invalid duration format. Use: 1d, 7d, 30d, or perm`);
       }
       expiresAt = Date.now() + duration;
@@ -182,7 +182,7 @@ class PremiumCommand extends Command {
   }
 
   getHelpText() {
-    return `**Premium Management Commands:**
+        return `**Premium Commands:**
 \`premium grant <user|guild> <id> [duration] [reason]\` - Grant premium
 \`premium revoke <user|guild> <id>\` - Revoke premium
 \`premium stats\` - View premium statistics

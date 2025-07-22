@@ -1,4 +1,4 @@
-import { Command } from '../../structures/Command.js';
+import { Command } from '#structures/Command.js';
 import {
   ContainerBuilder,
   TextDisplayBuilder,

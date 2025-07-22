@@ -1,4 +1,4 @@
-import { Command } from '../../structures/Command.js';
+import { Command } from '#structures/Command.js';
 import {
   ContainerBuilder,
   TextDisplayBuilder,
@@ -280,9 +280,9 @@ class CV2Command extends Command {
     return Buffer.from(`Components v2 Demo File - Generated: ${new Date().toISOString()}`, 'utf8');
   }
 
-  async execute({ message, client }) {
-    this._getUserState(message.author.id);
-    this._logInteraction(message.author.id, 'Command Executed', 'Started CV2 showcase demo');
+  async execute({ client,message,args }) {
+    this._getUserState(message.author.id|| interaction.user.id);
+    this._logInteraction(message.author.id|| interaction.user.id, 'Command Executed', 'Started CV2 showcase demo');
 
     const container = this.buildMainContainer(message.author.username, client);
     const demoFile = this.createDemoFile();

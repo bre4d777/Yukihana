@@ -1,6 +1,6 @@
 
 import chalk from 'chalk';
-import { config } from '../config/config.js';
+import { config } from '#config/config.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

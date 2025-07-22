@@ -1,7 +1,7 @@
 
 import { ActivityType } from 'discord.js';
-import { logger } from '../../utils/logger.js';
-import { config } from '../../config/config.js';
+import { logger } from '#utils/logger.js';
+import { config } from '#config/config.js';
 import fs from 'fs';
 import path from 'path';
 import { AttachmentBuilder } from 'discord.js';

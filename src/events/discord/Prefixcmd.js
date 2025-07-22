@@ -1,10 +1,9 @@
-
 import { ContainerBuilder, TextDisplayBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags } from 'discord.js';
-import { logger } from '../../utils/logger.js';
-import { db } from '../../database/DatabaseManager.js';
-import { cooldownManager } from '../../utils/cooldownManager.js';
-import { canUseCommand, getMissingBotPermissions, inSameVoiceChannel, hasPremiumAccess } from '../../utils/permissionUtil.js';
-import { config } from '../../config/config.js';
+import { logger } from '#utils/logger.js';
+import { db } from '#database/DatabaseManager.js';
+import { cooldownManager } from '#utils/cooldownManager.js';
+import { canUseCommand, getMissingBotPermissions, inSameVoiceChannel, hasPremiumAccess } from '#utils/permissionUtil.js';
+import { config } from '#config/config.js';
 
 
 function _createCv2Reply(options) {
@@ -222,32 +221,22 @@ export default {
 
     
     try {
-      
       if (command.maintenance && !config.ownerIds?.includes(message.author.id)) {
         const reply = _createCv2Reply({ description: '<:byte_info:1372554308150890496> Command under maintenance.', color: 0x3498DB });
         await message.reply(reply);
         return;
       }
       
-      
       if (command.ownerOnly && !config.ownerIds?.includes(message.author.id)) {
         await _sendError(message, 'Permission Denied', 'This is an owner-only command.');
         return;
       }
 
-      
-      if (command.management && !db.isManager(message.author.id)) {
-        await _sendError(message, 'Permission Denied', 'Management permissions are required for this command.');
-        return;
-      }
-
-      
       if (!canUseCommand(message.member, command)) {
         await _sendError(message, 'Insufficient Permissions', 'You do not have the required permissions to use this command.');
         return;
       }
 
-      
       if (command.permissions?.length > 0) {
         const missingBotPerms = getMissingBotPermissions(message.channel, command.permissions);
         if (missingBotPerms.length > 0) {
@@ -255,7 +244,6 @@ export default {
           return;
         }
       }
-      
       
       if (command.userPrem && !hasPremiumAccess(message.author.id, message.guild.id, 'user')) {
         await _sendPremiumError(message, 'User Premium');
@@ -272,14 +260,12 @@ export default {
         return;
       }
 
-      
       const cooldownTime = cooldownManager.checkCooldown(message.author.id, command);
       if (cooldownTime) {
         await _sendError(message, 'Cooldown Active', `Please wait **${cooldownTime}** more second(s) before using this command.`);
         return;
       }
 
-      
       if (command.voiceRequired && !message.member.voice.channel) {
         await _sendError(message, 'Voice Channel Required', 'You must be in a voice channel to use this command.');
         return;
@@ -293,12 +279,10 @@ export default {
         }
       }
 
-      
       const guildPrefix = db.getPrefix(message.guild.id);
       
 
 
-      
       cooldownManager.setCooldown(message.author.id, command);
       
       await command.execute({
@@ -307,7 +291,6 @@ export default {
         args
       });
 
-      
       if (!flags.has('silent')) {
        
       }

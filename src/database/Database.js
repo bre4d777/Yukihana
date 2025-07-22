@@ -2,7 +2,7 @@ import BetterSQLite3 from 'better-sqlite3';
 import fs from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { logger } from '../utils/logger.js';
+import { logger } from '#utils/logger.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

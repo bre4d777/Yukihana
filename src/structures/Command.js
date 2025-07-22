@@ -11,7 +11,7 @@ export class Command {
     this.permissions = options.permissions || [];
     this.userPermissions = options.userPermissions || [];
     this.ownerOnly = options.ownerOnly || false;
-    this.management = options.management || false;
+    
     this.userPrem = options.userPrem || false;
     this.guildPrem = options.guildPrem || false;
     this.anyPrem = options.anyPrem || false;

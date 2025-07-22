@@ -1,8 +1,8 @@
-import { Command } from '../../structures/Command.js';
+import { Command } from '#structures/Command.js';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v10';
-import { config } from '../../config/config.js';
-import { logger } from '../../utils/logger.js';
+import { config } from '#config/config.js';
+import { logger } from '#utils/logger.js';
 import { ContainerBuilder, TextDisplayBuilder, MessageFlags } from 'discord.js';
 
 class UpdateSlashCommand extends Command {

@@ -1,4 +1,4 @@
-import { Command } from '../../structures/Command.js';
+import { Command } from '#structures/Command.js';
 import {
   ContainerBuilder,
   TextDisplayBuilder,
@@ -13,7 +13,7 @@ import {
   SeparatorSpacingSize,
   ButtonStyle,
 } from 'discord.js';
-import { db } from '../../database/DatabaseManager.js';
+import { db } from '#database/DatabaseManager.js';
 
 
 class NoPrefixToggleCommand extends Command {

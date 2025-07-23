@@ -1,41 +1,39 @@
 import {
   Client,
-  GatewayIntentBits as G,
-  Collection as C,
-  Partials as P,
-  Options as O,
+  GatewayIntentBits,
+  Collection,
+  Partials,
+  Options,
 } from "discord.js";
-import { ClusterClient as CC, getInfo as gi } from "discord-hybrid-sharding";
+import { ClusterClient, getInfo } from "discord-hybrid-sharding";
 import { REST } from "@discordjs/rest";
-// import { Routes as R } from 'discord-api-types/v10';
-import { EventLoader as EL } from "./EventLoader.js";
-import { CommandHandler as CH } from "./CommandHandler.js";
-import { logger as l } from "#utils/logger.js";
-import { config as c } from "#config/config.js";
+import { EventLoader } from "./EventLoader.js";
+import { CommandHandler } from "./CommandHandler.js";
+import { logger } from "#utils/logger.js";
+import { config } from "#config/config.js";
 import { db } from "#database/DatabaseManager.js";
-import { emoji as e } from "#config/emoji.js";
+import { emoji } from "#config/emoji.js";
 
-let si = null;
+let shardInfo = null;
 try {
-  si = gi();
+  shardInfo = getInfo();
 } catch (error) {
-  si = null;
+  shardInfo = null;
 }
-const n = Date.now;
 
 export class Yukihana extends Client {
   constructor() {
     const clientOptions = {
       intents: [
-        G.Guilds,
-        G.GuildMembers,
-        G.GuildMessages,
-        G.GuildVoiceStates,
-        G.GuildMessageReactions,
-        G.MessageContent,
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.MessageContent,
       ],
-      partials: [P.Channel, P.GuildMember, P.Message, P.User],
-      makeCache: O.cacheWithLimits({
+      partials: [Partials.Channel, Partials.GuildMember, Partials.Message, Partials.User],
+      makeCache: Options.cacheWithLimits({
         MessageManager: 100,
         PresenceManager: 0,
         UserManager: 100,
@@ -44,25 +42,25 @@ export class Yukihana extends Client {
       allowedMentions: { parse: ["users", "roles"], repliedUser: false },
     };
 
-    if (si) {
-      clientOptions.shards = si.SHARD_LIST;
-      clientOptions.shardCount = si.TOTAL_SHARDS;
+    if (shardInfo) {
+      clientOptions.shards = shardInfo.SHARD_LIST;
+      clientOptions.shardCount = shardInfo.TOTAL_SHARDS;
     }
 
     super(clientOptions);
 
-    this.cluster = si ? new CC(this) : null;
-    this.commands = new C();
-    this.logger = l;
-    this.config = c;
-    this.emoji = e;
+    this.cluster = shardInfo ? new ClusterClient(this) : null;
+    this.commands = new Collection();
+    this.logger = logger;
+    this.config = config;
+    this.emoji = emoji;
     this.db = db;
 
-    this.commandHandler = new CH(this);
-    this.eventHandler = new EL(this);
+    this.commandHandler = new CommandHandler(this);
+    this.eventHandler = new EventLoader(this);
 
-    this.startTime = n();
-    this.rest = new REST({ version: "10" }).setToken(c.token);
+    this.startTime = Date.now();
+    this.rest = new REST({ version: "10" }).setToken(config.token);
   }
 
   async init() {
@@ -70,7 +68,7 @@ export class Yukihana extends Client {
     try {
       await this.eventHandler.loadAllEvents();
       await this.commandHandler.loadCommands();
-      await this.login(c.token);
+      await this.login(config.token);
 
       this.logger.success(
         "Yukihana",
@@ -102,6 +100,6 @@ export class Yukihana extends Client {
   }
 
   get uptime() {
-    return n() - this.startTime;
+    return Date.now() - this.startTime;
   }
 }

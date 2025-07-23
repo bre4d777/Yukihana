@@ -104,13 +104,6 @@ class Logger {
       this.logFilePath,
       this.formatLogMessage('SUCCESS', context, message)
     );
-
-    if (this.isPlayerContext(context)) {
-      this.writeToLogFile(
-        this.playerLogFilePath,
-        this.formatLogMessage('SUCCESS', context, message)
-      );
-    }
   }
 
   warn(context, message) {
@@ -124,13 +117,6 @@ class Logger {
       this.logFilePath,
       this.formatLogMessage('WARN', context, message)
     );
-
-    if (this.isPlayerContext(context)) {
-      this.writeToLogFile(
-        this.playerLogFilePath,
-        this.formatLogMessage('WARN', context, message)
-      );
-    }
   }
 
   error(context, message, error) {
@@ -154,13 +140,6 @@ class Logger {
       errorLog += `\nStack trace: ${error.stack || error}`;
     }
     this.writeToLogFile(this.errorLogFilePath, errorLog);
-
-    if (this.isPlayerContext(context)) {
-      this.writeToLogFile(
-        this.playerLogFilePath,
-        errorLog
-      );
-    }
   }
 
   debug(context, message) {
@@ -175,60 +154,7 @@ class Logger {
         this.logFilePath,
         this.formatLogMessage('DEBUG', context, message)
       );
-
-      if (this.isPlayerContext(context)) {
-        this.writeToLogFile(
-          this.playerLogFilePath,
-          this.formatLogMessage('DEBUG', context, message)
-        );
-      }
     }
-  }
-
-  player(context, message, playerState = null) {
-    console.log(
-      chalk.cyan(`[${this.timestamp}]`),
-      chalk.bold.cyan(`[Player:${context}]`),
-      chalk.whiteBright(message)
-    );
-
-    let logMessage = this.formatLogMessage('PLAYER', context, message);
-
-    if (playerState) {
-      const safePlayerState = this.sanitizePlayerState(playerState);
-      logMessage += `\nPlayer state: ${JSON.stringify(safePlayerState, null, 2)}`;
-    }
-
-    this.writeToLogFile(this.logFilePath, logMessage);
-
-    this.writeToLogFile(this.playerLogFilePath, logMessage);
-  }
-
-  isPlayerContext(context) {
-    const playerContexts = [
-      'playerCreated', 'playerDestroyed', 'playerEmpty', 'playerEnd', 'playerStart',
-      'queueEnd', 'nodeConnect', 'nodeError'
-    ];
-
-    return playerContexts.some(playerContext =>
-      context.includes(playerContext) ||
-      context.toLowerCase().includes('player') ||
-      context.toLowerCase().includes('queue') ||
-      false
-    );
-  }
-
-  sanitizePlayerState(playerState) {
-    const sanitized = { ...playerState };
-
-    delete sanitized.node;
-
-    if (Array.isArray(sanitized.queue)) {
-      sanitized.queueSize = sanitized.queue.length;
-      delete sanitized.queue;
-    }
-
-    return sanitized;
   }
 }
 export const logger = new Logger();

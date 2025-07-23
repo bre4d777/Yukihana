@@ -45,7 +45,7 @@ function getStatusType(type) {
 
 async function sendDatabaseBackups(client) {
   try {
-    const backupChannelId = "1223205399163834419";
+    const backupChannelId = client.config.channels.backup;
     const channel = client.channels.cache.get(backupChannelId);
 
     if (!channel) {

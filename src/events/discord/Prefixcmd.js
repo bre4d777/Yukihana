@@ -47,7 +47,7 @@ async function _sendPremiumError(message, type) {
 
 async function _logCommandUsage(client, message, commandName, args) {
   try {
-    const logChannel = await client.channels.fetch('1380533796008497312');
+    const logChannel = await client.channels.fetch(client.config.channels.logs);
     if (!logChannel?.isTextBased()) return;
 
     const logDescription = `
@@ -67,7 +67,7 @@ async function _logErrorToChannel(client, error) {
   const errorMessage = `\`\`\`[${timestamp}]\n${error.stack || error.message}\`\`\``;
 
   try {
-    const channel = await client.channels.fetch("1380538525048508417");
+    const channel = await client.channels.fetch(client.config.channels.error);
     if (channel?.isTextBased()) {
       const errorReply = _createCv2Reply({
           title: '❌ Logged Error',

@@ -12,12 +12,16 @@ export class Command {
     this.userPermissions = options.userPermissions || [];
     this.ownerOnly = options.ownerOnly || false;
     
+    // Premium requirements
     this.userPrem = options.userPrem || false;
     this.guildPrem = options.guildPrem || false;
     this.anyPrem = options.anyPrem || false;
 
+    // Voice requirements
     this.voiceRequired = options.voiceRequired || false;
     this.sameVoiceRequired = options.sameVoiceRequired || false;
+
+    // State flags
     this.maintenance = options.maintenance || false;
 
     this.enabledSlash = options.enabledSlash || false;

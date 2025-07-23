@@ -19,9 +19,6 @@ export function isOwner(userId) {
   return ownerSet.has(userId);
 }
 
-export function isManager(userId) {
-  return !!db.isManager(userId);
-}
 
 export function canUseCommand(member, command) {
   if (command.ownerOnly && !isOwner(member.id)) return false;

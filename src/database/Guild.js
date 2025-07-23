@@ -1,7 +1,6 @@
-
-import { Database } from './Database.js';
-import { config } from '#config/config.js';
-import { logger } from '#utils/logger.js';
+import { Database } from "./Database.js";
+import { config } from "#config/config.js";
+// import { logger } from '#utils/logger.js';
 
 export class Guild extends Database {
   constructor() {
@@ -23,13 +22,13 @@ export class Guild extends Database {
   }
 
   getGuild(guildId) {
-    return this.get('SELECT * FROM guilds WHERE id = ?', [guildId]);
+    return this.get("SELECT * FROM guilds WHERE id = ?", [guildId]);
   }
 
   ensureGuild(guildId) {
     const guild = this.getGuild(guildId);
     if (!guild) {
-      this.exec('INSERT INTO guilds (id) VALUES (?)', [guildId]);
+      this.exec("INSERT INTO guilds (id) VALUES (?)", [guildId]);
       return this.getGuild(guildId);
     }
     return guild;
@@ -43,25 +42,25 @@ export class Guild extends Database {
   setPrefix(guildId, prefix) {
     this.ensureGuild(guildId);
     return this.exec(
-      'UPDATE guilds SET prefix = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+      "UPDATE guilds SET prefix = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
       [prefix, guildId]
     );
   }
 
   getAllGuilds() {
-    return this.all('SELECT * FROM guilds');
+    return this.all("SELECT * FROM guilds");
   }
 
   updateSettings(guildId, settings) {
     this.ensureGuild(guildId);
-    const keys = Object.keys(settings).filter(key =>
-      ['prefix'].includes(key)
+    const keys = Object.keys(settings).filter((key) =>
+      ["prefix"].includes(key)
     );
 
     if (keys.length === 0) return null;
 
-    const setClause = keys.map(key => `${key} = ?`).join(', ');
-    const values = keys.map(key => settings[key]);
+    const setClause = keys.map((key) => `${key} = ?`).join(", ");
+    const values = keys.map((key) => settings[key]);
     values.push(guildId);
 
     return this.exec(
@@ -70,10 +69,10 @@ export class Guild extends Database {
     );
   }
 
-  blacklistGuild(guildId, reason = 'No reason provided') {
+  blacklistGuild(guildId, reason = "No reason provided") {
     this.ensureGuild(guildId);
     return this.exec(
-      'UPDATE guilds SET blacklisted = 1, blacklist_reason = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+      "UPDATE guilds SET blacklisted = 1, blacklist_reason = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
       [reason, guildId]
     );
   }
@@ -81,7 +80,7 @@ export class Guild extends Database {
   unblacklistGuild(guildId) {
     this.ensureGuild(guildId);
     return this.exec(
-      'UPDATE guilds SET blacklisted = 0, blacklist_reason = NULL, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+      "UPDATE guilds SET blacklisted = 0, blacklist_reason = NULL, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
       [guildId]
     );
   }
@@ -92,11 +91,11 @@ export class Guild extends Database {
 
     return {
       blacklisted: true,
-      reason: guild.blacklist_reason || 'No reason provided'
+      reason: guild.blacklist_reason || "No reason provided",
     };
   }
 
   getAllBlacklistedGuilds() {
-    return this.all('SELECT * FROM guilds WHERE blacklisted = 1');
+    return this.all("SELECT * FROM guilds WHERE blacklisted = 1");
   }
 }
